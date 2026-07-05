@@ -1,47 +1,67 @@
 body{
 
-font-family: "Courier New", monospace;
+    font-family: "Courier New", monospace;
 
-background:white;
+    background:#ffffff;
 
-color:black;
+    color:#000000;
 
-max-width:900px;
+    max-width:900px;
 
-margin:auto;
+    margin:auto;
 
-padding:20px;
+    padding:20px;
 
-line-height:1.5;
-
-}
-
-hr{
-
-border:1px solid black;
-
-}
-
-a{
-
-color:blue;
-
-}
-
-a:visited{
-
-color:purple;
-
-}
-
-h1,h2{
-
-font-weight:normal;
+    line-height:1.6;
 
 }
 
 pre{
 
-font-family:inherit;
+    font-family:inherit;
+
+    white-space:pre-wrap;
+
+}
+
+h2{
+
+    font-weight:normal;
+
+    margin-top:35px;
+
+}
+
+hr{
+
+    border:none;
+
+    border-top:1px solid black;
+
+}
+
+a{
+
+    color:blue;
+
+}
+
+a:visited{
+
+    color:purple;
+
+}
+
+#clock{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+#motd{
+
+    font-style:italic;
 
 }
