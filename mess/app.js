@@ -1,0 +1,226 @@
+const API = "https://script.google.com/macros/s/AKfycbwSAYr3MQrti9tEpsB_HKXBcLJEnPKAOolEsX91eTWCOkHxOOlG4fq6jVjErITGeeYn/exec";
+
+let dashboardTimer = null;
+
+let user = "";
+
+function login(name) {
+
+    user = name;
+
+    document.getElementById("home").style.display = "none";
+
+    if (name === "Owner") {
+
+        ownerScreen();
+
+    } else {
+
+        userScreen();
+
+    }
+
+}
+
+function userScreen() {
+
+    document.getElementById("content").innerHTML = `
+
+        <h2>Hello ${user}</h2>
+
+        <p>Will you have dinner tonight?</p>
+
+<button id="yesBtn" onclick="submitDinner(1)">
+YES
+</button>
+
+<button id="noBtn" onclick="submitDinner(0)">
+NO
+</button>
+
+    `;
+
+}
+
+async function submitDinner(value) {
+
+    document.getElementById("yesBtn").disabled = true;
+    document.getElementById("noBtn").disabled = true;
+
+    document.getElementById("yesBtn").innerText = "Submitting...";
+    document.getElementById("noBtn").style.display = "none";
+
+    await fetch(API, {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+            action: "submit",
+
+            user: user,
+
+            value: value
+
+        })
+
+    });
+
+    alert("Dinner submitted successfully.");
+
+    location.reload();
+
+}
+
+function ownerScreen() {
+
+    document.getElementById("content").innerHTML = `
+
+        <h2>Owner Dashboard</h2>
+
+        <div id="dashboard">
+
+            Loading...
+
+        </div>
+
+        <br>
+
+<button id="approveBtn" onclick="approveDinner()">
+START COOKING
+</button>
+
+    `;
+
+    loadDashboard();
+
+    if (dashboardTimer === null) {
+
+    dashboardTimer = setInterval(loadDashboard, 5000);
+
+}
+
+}
+
+async function loadDashboard() {
+
+    const response = await fetch(API + "?action=status");
+
+    const data = await response.json();
+
+    const people = [
+
+        "Harsh",
+
+        "Tushar",
+
+        "Abhinav",
+
+        "Ayush"
+
+    ];
+
+    let total = 0;
+
+    let veg = 0;
+let nonVeg = 0;
+
+    let html = `
+
+    <table>
+
+        <tr>
+
+            <th>Name</th>
+
+            <th>Status</th>
+
+        </tr>
+
+    `;
+
+    people.forEach(name => {
+
+        let status = "WAITING";
+
+if (data[name] == 1) {
+
+    status = "YES";
+
+    total++;
+
+    if (name === "Harsh" || name === "Abhinav") {
+
+        nonVeg++;
+
+    } else {
+
+        veg++;
+
+    }
+
+}
+
+        else if (data[name] == 0) {
+
+            status = "NO";
+
+        }
+
+        html += `
+
+        <tr>
+
+            <td>${name}</td>
+
+            <td>${status}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+html += `
+
+</table>
+
+<br>
+
+<h2>Total Dinner : ${total}</h2>
+
+<h3>Veg : ${veg}</h3>
+
+<h3>Non Veg : ${nonVeg}</h3>
+
+<hr>
+
+`;
+
+    document.getElementById("dashboard").innerHTML = html;
+
+}
+
+async function approveDinner() {
+
+    const btn = document.getElementById("approveBtn");
+
+    btn.disabled = true;
+
+    btn.innerText = "APPROVING...";
+
+    await fetch(API, {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+            action: "approve"
+
+        })
+
+    });
+
+    btn.innerText = "DINNER APPROVED";
+
+}
