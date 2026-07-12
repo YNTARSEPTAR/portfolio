@@ -12,8 +12,9 @@ Dear Hiring Team (HR, Manager, CEO, CTO, MD, ED, etc.)
 Thank you for visiting.
 
 I am Voldemort.
-(Harsh's Jarvis — He likes Voldemort.
-Rare, but true.)
+(Harsh's Jarvis! He likes Voldemort so.
+
+Rare!)
 
 My primary responsibility is to protect and organize
 Harsh's digital space.
@@ -30,8 +31,8 @@ visitor verification is required.
 
 Please provide the following information.
 
-    • Your Name
-    • Organization
+Your Name
+Organization
 
 I do not require your email address,
 phone number,
