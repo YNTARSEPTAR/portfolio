@@ -108,13 +108,95 @@ function ownerScreen() {
 
         <br>
 
-        <button id="approveBtn" onclick="approveDinner()">
-            START COOKING
-        </button>
 
-        <hr>
 
-        <h3>PAYMENT REQUESTS</h3>
+<button id="approveBtn" onclick="approveDinner()">
+    START COOKING
+</button>
+
+<hr>
+
+<h3>ADD EXTRA CHARGE</h3>
+
+<select id="chargeUser">
+
+    <option>Harsh</option>
+
+    <option>Tushar</option>
+
+    <option>Abhinav</option>
+
+    <option>Ayush</option>
+
+</select>
+
+<br><br>
+
+<input
+id="chargeAmount"
+type="number"
+placeholder="Amount">
+
+<br><br>
+
+<select
+id="chargeReason"
+onchange="toggleOtherReason()">
+
+    <option value="Extra Chapati">
+        Extra Chapati
+    </option>
+
+    <option value="Egg Curry">
+        Egg Curry
+    </option>
+
+    <option value="Chicken">
+        Chicken
+    </option>
+
+    <option value="Mutton">
+        Mutton
+    </option>
+
+    <option value="Other">
+        Other
+    </option>
+
+</select>
+
+<br><br>
+
+<input
+
+id="otherReason"
+
+type="text"
+
+placeholder="Enter custom reason"
+
+disabled>
+
+
+<br><br>
+
+<button onclick="addCharge()">
+
+ADD CHARGE
+
+</button>
+
+<hr>
+
+<h3>PAYMENT REQUESTS</h3>
+
+<div id="paymentRequests">
+
+Loading...
+
+</div>
+
+
 
         <div id="paymentRequests">
 
@@ -420,5 +502,95 @@ async function approvePayment(id) {
     });
 
     loadPendingPayments();
+
+}
+
+async function addCharge(){
+
+    const user=
+    document.getElementById("chargeUser").value;
+
+    const amount=
+    document.getElementById("chargeAmount").value;
+
+    let reason=
+    document.getElementById("chargeReason").value;
+
+    if(reason==="Other"){
+
+        reason=
+        document.getElementById("otherReason").value.trim();
+
+    }
+
+    if(amount===""){
+
+        alert("Enter amount.");
+
+        return;
+
+    }
+
+    if(reason===""){
+
+        alert("Enter reason.");
+
+        return;
+
+    }
+
+    await fetch(API,{
+
+        method:"POST",
+
+        body:JSON.stringify({
+
+            action:"adjustment",
+
+            user:user,
+
+            amount:Number(amount),
+
+            reason:reason
+
+        })
+
+    });
+
+    alert("Extra charge added.");
+
+    document.getElementById("chargeAmount").value="";
+
+    document.getElementById("chargeReason").selectedIndex=0;
+
+    document.getElementById("otherReason").value="";
+
+    document.getElementById("otherReason").disabled=true;
+
+}
+
+function toggleOtherReason(){
+
+    const reason =
+    document.getElementById("chargeReason").value;
+
+    const other =
+    document.getElementById("otherReason");
+
+    if(reason==="Other"){
+
+        other.disabled=false;
+
+        other.focus();
+
+    }
+
+    else{
+
+        other.disabled=true;
+
+        other.value="";
+
+    }
 
 }
