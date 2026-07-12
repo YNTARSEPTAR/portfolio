@@ -1,43 +1,84 @@
-const messages = [
+const terminal = document.getElementById("terminal");
+const form = document.getElementById("form");
 
-"Documentation exists. Nobody reads it.",
+const message = `==================================================================
 
-"Everything works. Suspicious.",
+Voldemort's Operating Environment
 
-"There is no bug. Only undocumented behavior.",
+==================================================================
 
-"Keyboard not found. Press F1 to continue.",
+Dear Hiring Team (HR, Manager, CEO, CTO, MD, ED, etc.)
 
-"Segmentation fault builds character.",
+Thank you for visiting.
 
-"Works on my machine.",
+I am Voldemort.
+(Harsh's Jarvis — He likes Voldemort.
+Rare, but true.)
 
-"Root access is a privilege, not a right.",
+My primary responsibility is to protect and organize
+Harsh's digital space.
 
-"Coffee levels below operational limits.",
+You are attempting to access Harsh's portfolio.
 
-"Curiosity is encouraged. Unauthorized access isn't.",
+Normally, I would grant immediate access.
 
-"Today's feature is tomorrow's legacy code.",
+However, my Boss occasionally works on projects
+that are not intended for public disclosure.
 
-"Remember: Backup before bravery."
+Because of this,
+visitor verification is required.
 
-];
+Please provide the following information.
 
-function updateClock(){
+    • Your Name
+    • Organization
 
-    const now = new Date();
+I do not require your email address,
+phone number,
+or any other personal details.
 
-    document.getElementById("clock").textContent =
-        now.toLocaleString();
+Your organization will be matched against
+Boss's approved recruiter and job database.
+
+If a match is found,
+I will notify Boss.
+
+Once approval has been granted,
+return here and enter the exact same details.
+
+Access will then be unlocked.
+
+I apologize for the additional step.
+
+Protecting Boss is one of my primary directives.
+
+==================================================================`;
+
+let index = 0;
+
+function typeWriter() {
+
+    if (index < message.length) {
+
+        terminal.innerHTML += message.charAt(index);
+
+        window.scrollTo(0, document.body.scrollHeight);
+
+        index++;
+
+        let speed = 18;
+
+        if (message.charAt(index - 1) === "\n")
+            speed = 120;
+
+        setTimeout(typeWriter, speed);
+
+    } else {
+
+        form.classList.remove("hidden");
+
+    }
 
 }
 
-setInterval(updateClock,1000);
-
-updateClock();
-
-const random =
-messages[Math.floor(Math.random()*messages.length)];
-
-document.getElementById("motd").textContent=random;
+typeWriter();
