@@ -278,49 +278,44 @@ async function loadPaymentSummary() {
 
         <table>
 
-            <tr>
+        <tr>
+        <td>Meals Taken</td>
+        <td>${data.meals}</td>
+        </tr>
 
-                <td>Meals Taken</td>
+        <tr>
+        <td>Meal Rate</td>
+        <td>Rs. ${data.rate}</td>
+        </tr>
 
-                <td>${data.meals}</td>
+        <tr>
+        <td>Meal Charges</td>
+        <td>Rs. ${data.mealCharges}</td>
+        </tr>
 
-            </tr>
+        <tr>
+        <td>Extra Charges</td>
+        <td>Rs. ${data.extraCharges}</td>
+        </tr>
 
-            <tr>
+        <tr>
+        <td><b>Total Charges</b></td>
+        <td><b>Rs. ${data.totalCharges}</b></td>
+        </tr>
 
-                <td>Meal Rate</td>
+        <tr>
+        <td>Payments Made</td>
+        <td>Rs. ${data.paid}</td>
+        </tr>
 
-                <td>Rs. ${data.rate}</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Total Charges</td>
-
-                <td>Rs. ${data.charges}</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Payments Made</td>
-
-                <td>Rs. ${data.paid}</td>
-
-            </tr>
-
-            <tr>
-
-                <td><strong>Pending Balance</strong></td>
-
-                <td><strong>Rs. ${data.balance}</strong></td>
-
-            </tr>
+        <tr>
+        <td><b>Pending Balance</b></td>
+        <td><b>Rs. ${data.balance}</b></td>
+        </tr>
 
         </table>
 
-    `;
+        `;
 
 }
 
