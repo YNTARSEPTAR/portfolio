@@ -94,29 +94,50 @@ function ownerScreen() {
 
     document.getElementById("content").innerHTML = `
 
-        <h2>Owner Dashboard</h2>
+        <h2>OWNER TERMINAL</h2>
+
+        <hr>
+
+        <h3>DINNER STATUS</h3>
 
         <div id="dashboard">
 
-            Loading...
+            Loading dinner status...
 
         </div>
 
         <br>
 
-<button id="approveBtn" onclick="approveDinner()">
-START COOKING
-</button>
+        <button id="approveBtn" onclick="approveDinner()">
+            START COOKING
+        </button>
+
+        <hr>
+
+        <h3>PAYMENT REQUESTS</h3>
+
+        <div id="paymentRequests">
+
+            Loading payment requests...
+
+        </div>
 
     `;
 
     loadDashboard();
 
+    loadPendingPayments();
+
     if (dashboardTimer === null) {
 
-    dashboardTimer = setInterval(loadDashboard, 5000);
+        dashboardTimer = setInterval(() => {
 
-}
+            loadDashboard();
+            loadPendingPayments();
+
+        }, 5000);
+
+    }
 
 }
 
@@ -336,5 +357,73 @@ async function submitPayment(amount) {
     alert("Payment request submitted.");
 
     loadPaymentSummary();
+
+}
+
+async function loadPendingPayments() {
+
+    const response = await fetch(
+        API + "?action=pendingPayments"
+    );
+
+    const payments = await response.json();
+
+    let html = "";
+
+    if (payments.length === 0) {
+
+        html = "<p>No pending payment requests.</p>";
+
+    }
+
+    else {
+
+        payments.forEach(payment => {
+
+            html += `
+
+                <div style="border:1px solid black;padding:10px;margin-bottom:10px;">
+
+                    <b>${payment.user}</b><br>
+
+                    Amount : Rs. ${payment.amount}
+
+                    <br><br>
+
+                    <button onclick="approvePayment(${payment.id})">
+
+                        APPROVE
+
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+    document.getElementById("paymentRequests").innerHTML = html;
+
+}
+
+async function approvePayment(id) {
+
+    await fetch(API, {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+            action: "approvePayment",
+
+            id: id
+
+        })
+
+    });
+
+    loadPendingPayments();
 
 }
