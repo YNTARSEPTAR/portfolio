@@ -51,7 +51,6 @@ Access will then be unlocked.
 
 I apologize for the additional step.
 
-Protecting Boss is one of my primary directives.
 
 ==================================================================`;
 
