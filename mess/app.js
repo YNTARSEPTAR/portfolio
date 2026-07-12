@@ -30,15 +30,33 @@ function userScreen() {
 
         <p>Will you have dinner tonight?</p>
 
-<button id="yesBtn" onclick="submitDinner(1)">
-YES
-</button>
+        <button id="yesBtn" onclick="submitDinner(1)">
+            YES
+        </button>
 
-<button id="noBtn" onclick="submitDinner(0)">
-NO
-</button>
+        <button id="noBtn" onclick="submitDinner(0)">
+            NO
+        </button>
+
+        <hr>
+
+        <div id="paymentSummary">
+
+            Loading payment details...
+
+        </div>
+
+        <br>
+
+        <button onclick="showPaymentBox()">
+
+            MAKE PAYMENT
+
+        </button>
 
     `;
+
+    loadPaymentSummary();
 
 }
 
@@ -222,5 +240,101 @@ async function approveDinner() {
     });
 
     btn.innerText = "DINNER APPROVED";
+
+}
+
+async function loadPaymentSummary() {
+
+    const response = await fetch(
+        API + "?action=summary&user=" + encodeURIComponent(user)
+    );
+
+    const data = await response.json();
+
+    document.getElementById("paymentSummary").innerHTML = `
+
+        <h3>PAYMENT SUMMARY</h3>
+
+        <table>
+
+            <tr>
+
+                <td>Meals Taken</td>
+
+                <td>${data.meals}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Meal Rate</td>
+
+                <td>Rs. ${data.rate}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Total Charges</td>
+
+                <td>Rs. ${data.charges}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Payments Made</td>
+
+                <td>Rs. ${data.paid}</td>
+
+            </tr>
+
+            <tr>
+
+                <td><strong>Pending Balance</strong></td>
+
+                <td><strong>Rs. ${data.balance}</strong></td>
+
+            </tr>
+
+        </table>
+
+    `;
+
+}
+
+function showPaymentBox() {
+
+    const amount = prompt("Enter payment amount (Rs.)");
+
+    if (amount === null) return;
+
+    if (amount.trim() === "") return;
+
+    submitPayment(amount);
+
+}
+
+async function submitPayment(amount) {
+
+    await fetch(API, {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+            action: "payment",
+
+            user: user,
+
+            amount: Number(amount)
+
+        })
+
+    });
+
+    alert("Payment request submitted.");
+
+    loadPaymentSummary();
 
 }
